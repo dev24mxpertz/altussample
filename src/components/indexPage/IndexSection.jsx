@@ -1,5 +1,5 @@
 import { Scroll } from "@react-three/drei";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import logoimage from "../../assets/Logo_image.png";
 import menusymbol from "../../assets/menusymbol.png";
 import secondsectionimage1 from "../../assets/secondsectionimage1.png";
@@ -8,7 +8,7 @@ import fourthIcon1 from "../../assets/fourthIcon1.png";
 import fourthIcon2 from "../../assets/fourthIcon2.png";
 import fourthIcon3 from "../../assets/fourthIcon3.png";
 import AI_image from "../../assets/AI_image.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import goalicon1 from "../../assets/goalicon1.png";
 import goalicon2 from "../../assets/goalicon2.png";
 import goalicon3 from "../../assets/goalicon3.png";
@@ -17,8 +17,8 @@ import goalicon5 from "../../assets/goalicon5.png";
 
 const Section = (props) => {
   return (
-    <section className="w-full paddinghori16 flex flex-col justify-start items-center">
-      <div className="w-full h-full flex flex-col max-w-[1300px] bgdiv ">
+    <section className="w-full h-screen px-16 flex flex-col justify-start items-center">
+      <div className="w-full h-full flex flex-col justify-evenly max-w-[1300px]">
         {props.children}
       </div>
     </section>
@@ -27,7 +27,7 @@ const Section = (props) => {
 
 const BlackSection = (props) => {
   return (
-    <section className="w-full BLACKpaddinghori16 flex bg-black flex-col justify-start items-center">
+    <section className="w-full h-screen px-16 flex bg-black flex-col justify-start items-center">
       <div className="w-full h-full flex justify-end items-center   max-w-[1300px]">
         {props.children}
       </div>
@@ -63,56 +63,6 @@ const PartnerSection = ({ number, heading, content }) => {
 };
 
 const IndexSection = () => {
-  const [IsMenuVisible, setIsMenuVisible] = useState(false);
-  const [isShowoverlay, setisShowoverlay] = useState(false);
-  const navigate = useNavigate();
-  const closemenuHandler = () => {
-    setisShowoverlay(true);
-    setTimeout(() => {
-      setIsMenuVisible(!IsMenuVisible);
-    }, 500);
-  };
-
-  const openmenuHandler = () => {
-    setisShowoverlay(true);
-    setTimeout(() => {
-      setIsMenuVisible(!IsMenuVisible);
-    }, 500);
-  };
-
-  useEffect(() => {
-    if (isShowoverlay) {
-      setTimeout(() => {
-        setisShowoverlay(false);
-      }, 1000);
-    }
-  }, [isShowoverlay]);
-
-  const Navigate_Home = () => {
-    closemenuHandler();
-    navigate("/");
-  };
-
-  const Navigate_AboutUs = () => {
-    closemenuHandler();
-    navigate("/AboutUs");
-  };
-
-  const Navigate_ContactUs = () => {
-    closemenuHandler();
-    navigate("/ContactUs");
-  };
-
-  const Navigate_FrontendPage = () => {
-    closemenuHandler();
-    navigate("/FrontendPage");
-  };
-
-  const Navigate_BackendPage = () => {
-    closemenuHandler();
-    navigate("/BackendPage");
-  };
-
   return (
     <Scroll html className="w-full">
       <div className="Main_Layout_Container relative">
@@ -126,10 +76,9 @@ const IndexSection = () => {
                 </h3>
               </div>
               <img
-                onClick={openmenuHandler}
                 src={menusymbol}
                 alt="menusymbol"
-                className="w-8 text-black-800 cursor-pointer"
+                className="w-8 text-black-800"
               />
             </section>
             <h1 className="frontheading">Reinvent</h1>
@@ -157,7 +106,7 @@ const IndexSection = () => {
             <p className="secondsectionpara">
               in less than half the time against competitors
             </p>
-            <div className="  firstflexidv ">
+            <div className="p-2 w-full flex justify-center items-stretch ">
               <div className="px-4 py-4 flex flex-col mx-2 items-center justify-evenly subboxshadow rounded-md w-1/4">
                 <img
                   src={secondsectionimage1}
@@ -186,7 +135,7 @@ const IndexSection = () => {
         <Section>
           <div className="w-full py-16">
             <h1 className="thirdSectionheading">GEN AI IN ACTION</h1>
-            <div className="secondflexidv">
+            <div className="w-full  p-2 flex items-center gap-x-1.5 justify-between">
               <div className="w-1/3 px-4 py-4 bg-orange-700 fourthbox relative">
                 <img src={fourthIcon1} alt="fourthIcon1" />
                 <h3 className="fourthboxheading">3M</h3>
@@ -231,8 +180,8 @@ const IndexSection = () => {
         <Section>
           <div className="w-full py-8 ">
             <h1 className="fouthSectionheading">Our suite of Solutions</h1>
-            <div className=" thirdflexidv">
-              <div className=" oursite_box">
+            <div className="w-full p-2 flex justify-between gap-3 items-stretch">
+              <div className="w-[48%] oursite_box">
                 <h3>AI ASSISTANT FOR CUSTOMER SERVICE</h3>
                 <p>
                   Eliminate unique customer frustrations and operational issues
@@ -243,7 +192,7 @@ const IndexSection = () => {
                 </p>
                 <button className="oursite_box_link">Learn More</button>
               </div>
-              <div className="oursite_box">
+              <div className="w-[48%] oursite_box">
                 <h3>AI WORKFORCE FOR BUSINESS OPERATIONS</h3>
                 <p>
                   Imagine a workplace where challenges are met head-on,
@@ -261,8 +210,8 @@ const IndexSection = () => {
             <h3 className="goalachieve_heading">
               Achieve Your Goals <br /> with Altus Solutions
             </h3>
-            <div className="fourthflexidv">
-              <div className="w_85">
+            <div className="w-full flex justify-between gap-3 items-stretch">
+              <div className="w-[85%] flex">
                 <div className="goalwrapper w-full goalwrapper_padding flex flex-col justify-between">
                   <h3>BOOST YOUR SUCCESS</h3>
                   <p>
@@ -302,7 +251,7 @@ const IndexSection = () => {
                 </div>
               </div>
             </div>
-            <div className="fouthsubflexdiv">
+            <div className="flex gap-3 mt-2">
               <div className="goalwrapper flex flex-col justify-center">
                 <h3>
                   EMPOWERED <br />
@@ -360,7 +309,7 @@ const IndexSection = () => {
             <h3 className="partner_heading">
               Partner with Us to <br /> Realize Your Vision
             </h3>
-            <div className="fifthflexidv">
+            <div className="w-full p-2 flex gap-2 justify-between items-stretch">
               <PartnerSection
                 number={1}
                 heading="Expertise"
@@ -385,7 +334,7 @@ const IndexSection = () => {
           </div>
         </Section>
         <BlackSection>
-          <div className=" blackflexdiv  ">
+          <div className="w-[65%] h-full flex flex-col items-start justify-evenly  ">
             <h3 className="logo_subheading">
               Your bold idea, our smart solutions
             </h3>
@@ -394,8 +343,8 @@ const IndexSection = () => {
           </div>
         </BlackSection>
         <Section>
-          <div className=" footer_maindiv">
-            <div className="flex flex-col justify-start max-h-max footersection">
+          <div className="w-full flex px-2 h-full justify-between items-center">
+            <div className="flex flex-col justify-start w-[25%] max-h-max footersection">
               <img
                 src={logoimage}
                 alt="logo_image"
@@ -420,10 +369,7 @@ const IndexSection = () => {
               <h3 className="my-4">Get in Touch with us </h3>
               <div className="px-5 w-full">
                 <div className="footer_input_container">
-                  <input
-                    className="footer_input font-poppins font-semibold"
-                    placeholder="Your Email"
-                  />
+                  <input className="footer_input" placeholder="Your Email" />
                   <span>
                     <i class="bi bi-arrow-right"></i>
                   </span>
@@ -432,35 +378,6 @@ const IndexSection = () => {
             </div>
           </div>
         </Section>
-        <div className={`menu_overlay ${isShowoverlay ? "open" : ""}`}></div>
-        <div className={`menu_container ${IsMenuVisible ? "open" : ""}`}>
-          <div className="w-full px-10 py-8 flex justify-between items-center">
-            <img src={logoimage} alt="logoimage" className="w-16 " />
-            <span
-              onClick={closemenuHandler}
-              className="text-2xl mx-2 font-bold font-poppins text-black cursor-pointer "
-            >
-              <i className="bi bi-x-lg"></i>
-            </span>
-          </div>
-          <div className="w-full px-12 py-8 flex flex-col justify-evenly items-start">
-            <button onClick={Navigate_Home} className="menu_link">
-              HOME
-            </button>
-            <button onClick={Navigate_AboutUs} className="menu_link">
-              About Us
-            </button>
-            <button onClick={Navigate_ContactUs} className="menu_link">
-              Contact us
-            </button>
-            <button onClick={Navigate_FrontendPage} className="menu_link">
-              AI ASSISTANT FOR CUSTOMER SUPPORT
-            </button>
-            <button onClick={Navigate_BackendPage} className="menu_link">
-              AI Workforce for Backend Operations
-            </button>
-          </div>
-        </div>
       </div>
     </Scroll>
   );

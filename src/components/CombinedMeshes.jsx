@@ -9,93 +9,113 @@ import { Mounta } from "./Mounta";
 import { Mountb } from "./Mountb";
 import { Mountc } from "./Mountc";
 import { Mountd } from "./Mountd";
-import firsttexture from "../assets/blacktexture.avif";
-import orangestriplinetexture from "../assets/orangestriplinetexture.jpg";
+import firsttexture from "../assets/darkshadybg.jpg"
+import secondtexture  from "../assets/pinkshadetexture.jpg"
+import thirdtexture from "../assets/startexture.jpg"
+import fourthtexture from "../assets/photo-1530982011887-3cc11cc85693.jpg"
 
-const Floor_Height = 10;
-const radius = 3;
+const Floor_Height = 10; // Height adjustment for the floor
+const radius = 3; // Distance from the center of the model to the camera
 
 export const CombinedMeshes = ({ position, ...props }) => {
   const ref = useRef();
   const scroll = useScroll();
 
-  const textures = [useTexture(firsttexture)];
-  const mountTextures = [useTexture(orangestriplinetexture)];
+  const textures = [
+    useTexture(firsttexture),
+    useTexture(secondtexture),
+    useTexture(thirdtexture),
+    useTexture(fourthtexture),
+  ];
 
   useFrame(({ camera }) => {
-    const progress = scroll.offset;
+    const progress = scroll.offset; // Scroll progress (0 to 1)
     let activeTexture = null;
 
+    // Define breakpoints
     const quarterProgress = 0.25;
     const halfProgress = 0.5;
     const threeQuarterProgress = 0.75;
     const fullProgress = 1.0;
 
     if (progress <= quarterProgress) {
-      const localProgress = progress / quarterProgress;
-      camera.position.x = 0.19;
+      // First quarter
+      const localProgress = progress / quarterProgress; // Normalize between 0 and 1
+
+      camera.position.x =  0.19;
       camera.position.y = 1.5;
       camera.position.z = -0.19;
-      activeTexture = textures[0]; // Set for all meshes except Mounts
+      activeTexture = textures[0];
 
       if (ref.current) {
-        ref.current.position.x = localProgress;
+        ref.current.position.x = localProgress ;
         ref.current.position.y = 0;
         ref.current.position.z = -localProgress * 4;
       }
     } else if (progress > quarterProgress && progress <= halfProgress) {
-      const localProgress = (progress - quarterProgress) / halfProgress;
-      camera.position.z = localProgress - 0.2;
-      activeTexture = textures[0]; // Set for all meshes except Mounts
+      // Second quarter
+      const localProgress = (progress - quarterProgress) / halfProgress; // Normalize
 
+      camera.position.z = localProgress -0.2 
+      activeTexture = textures[1];
+      
       if (ref.current) {
-        // Handle positioning logic if needed
+        // ref.current.position.x += localProgress;
+        // ref.current.position.y += localProgress;
+        // ref.current.position.z -=  localProgress;
       }
     } else if (progress > halfProgress && progress <= threeQuarterProgress) {
-      const localProgress = (progress - halfProgress) / quarterProgress;
-      camera.position.y = localProgress + 6;
+      // Third quarter  
+      const localProgress = (progress - halfProgress) / quarterProgress; // Normalize
+      
+      // camera.position.x = Math.sin(angle) * radius;
+      camera.position.y = localProgress + 6 ;
       camera.position.z = localProgress + 0.29;
-      activeTexture = textures[0]; // Set for all meshes except Mounts
+      activeTexture = textures[2];
 
       if (ref.current) {
-        // Handle positioning logic if needed
+        // ref.current.position.x = 40 + localProgress * 20;
+        // ref.current.position.y = 0;
+        // ref.current.position.z = -8 - localProgress * 4;
       }
     } else if (progress > threeQuarterProgress && progress <= fullProgress) {
-      const localProgress = (progress - threeQuarterProgress) / quarterProgress;
-      activeTexture = textures[0]; // Set for all meshes except Mounts
+      // Final quarter
+      const localProgress = (progress - threeQuarterProgress) / quarterProgress; // Normalize
+      activeTexture = textures[3];
+
+      // camera.position.y = localProgress;
+      // // camera.position.y = 0;
+      // camera.position.z = localProgress;
 
       if (ref.current) {
-        ref.current.position.y = -localProgress - 2;
-        ref.current.position.z = -localProgress - 3;
+        // ref.current.position.x = 60 + localProgress * 20;
+        ref.current.position.y = - localProgress  - 2;
+        ref.current.position.z = -localProgress -3;
       }
     }
 
     if (ref.current) {
+      console.log(ref.current  , "-----ref.current--")
       ref.current.children.forEach((group) => {
         group.children.forEach((subgrp) => {
-          subgrp.children.forEach((mesh, index) => {
-            // Assign textures to Mount meshes based on the group
+          subgrp.children.forEach((mesh) => {
             if (mesh.material) {
-              if (
-                group === ref.current.children[4] ||
-                group === ref.current.children[5] ||
-                group === ref.current.children[6] ||
-                group === ref.current.children[7]
-              ) {
-                // This is a Mount group (Mounta, Mountb, Mountc, Mountd)
-                mesh.material.map = mountTextures[0];
-              } else {
-                // This is not a Mount group, assign the active texture
-                mesh.material.map = activeTexture;
-              }
+              mesh.material.map = activeTexture;
               mesh.material.needsUpdate = true;
             }
-          });
+          })
+        
         });
       });
     }
-
+    // Ensure the camera looks at the center of the model
     camera.lookAt(0, 0, 0);
+
+    console.log({
+      progress,
+      cameraPosition: { x: camera.position.x, y: camera.position.y, z: camera.position.z },
+      modelPosition: ref.current ? ref.current.position : null,
+    });
   });
 
   return (
